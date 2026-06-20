@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Movie Search App</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:linear-gradient(135deg,#141e30,#243b55);
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:20px;
+}
+
+.container{
+background:white;
+padding:25px;
+border-radius:15px;
+width:100%;
+max-width:500px;
+text-align:center;
+box-shadow:0 10px 25px rgba(0,0,0,0.3);
+}
+
+h1{
+margin-bottom:20px;
+}
+
+input{
+width:100%;
+padding:12px;
+border:1px solid #ccc;
+border-radius:8px;
+margin-bottom:10px;
+}
+
+button{
+padding:12px;
+width:100%;
+border:none;
+border-radius:8px;
+background:#243b55;
+color:white;
+cursor:pointer;
+}
+
+button:hover{
+background:#141e30;
+}
+
+#movieResult{
+margin-top:20px;
+}
+
+img{
+width:200px;
+border-radius:10px;
+margin-top:10px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🎬 Movie Search</h1>
+
+<input
+type="text"
+id="movieInput"
+placeholder="Enter movie name">
+
+<button onclick="searchMovie()">
+Search
+</button>
+
+<div id="movieResult"></div>
+
+</div>
+
+<script>
+
+async function searchMovie(){
+
+let movie =
+document.getElementById("movieInput").value;
+
+if(movie===""){
+alert("Enter a movie name");
+return;
+}
+
+let url =
+`https://www.omdbapi.com/?t=${movie}&apikey=564727fa`;
+
+let response =
+await fetch(url);
+
+let data =
+await response.json();
+
+if(data.Response==="False"){
+
+document.getElementById("movieResult")
+.innerHTML =
+"<h3>Movie Not Found</h3>";
+
+return;
+}
+
+document.getElementById("movieResult")
+.innerHTML =
+
+`
+<h2>${data.Title}</h2>
+
+<img src="${data.Poster}">
+
+<p><b>Year:</b> ${data.Year}</p>
+
+<p><b>Genre:</b> ${data.Genre}</p>
+
+<p><b>IMDB:</b> ${data.imdbRating}</p>
+
+<p>${data.Plot}</p>
+`;
+
+}
+
+</script>
+
+</body>
+</html>
